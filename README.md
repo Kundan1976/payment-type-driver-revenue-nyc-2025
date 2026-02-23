@@ -282,8 +282,8 @@ R² = 0.877
 
 Non-code outputs are available in the `reports/` directory:
 
-- `revenue_analysis.html` — full notebook rendered as static HTML
-- `one_page_summary.pdf` — executive-level summary of findings
+- `01_payment_type_driver_revenue_analysis.html` — full notebook rendered as static HTML
+- `executive_summary.pdf` — executive-level summary of findings
 
 ---
 
