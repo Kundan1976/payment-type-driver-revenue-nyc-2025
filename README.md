@@ -1,5 +1,7 @@
-# Payment Type and Driver Revenue: A Statistical Analysis
+# Payment Type and Driver Revenue: Statistical Analysis
 **NYC TLC Yellow Taxi Data · 2025 · 8.8M Trips**
+
+![License](https://img.shields.io/github/license/Kundan1976/payment-type-driver-revenue-nyc-2025)
 
 ---
 
@@ -63,25 +65,25 @@ All cleaning decisions were made to preserve statistical validity, not convenien
 
 ## Exploratory Analysis
 
-### Payment Type Share
+### 1. Payment Type Share
 
-![Payment Type Share](figures/payment_type_share.png)
+![Payment Type Share](figures/payment_type_share.png "Bar chart showing credit card accounts for ~70% of trips, cash ~10%, with remaining administrative categories excluded.")
 
-Credit card accounts for approximately **70% of all trips**, while cash accounts for roughly **10%**. Administrative and undefined categories were excluded from analysis, leaving a clean two-group comparison.
-
----
-
-### Revenue Distribution
-
-![Revenue Distribution](figures/revenue_distribution.png)
-
-Revenue is **heavily right-skewed**, with most trips concentrated between $10–$30 and a long tail extending beyond $100 (airport rides, longer routes). This skew invalidates parametric testing assumptions — median-based inference and non-parametric tests were used throughout.
+Credit card accounts for approximately **70% of all trips**, while cash accounts for roughly **10%**. Administrative and undefined categories (codes 0, 3, 4, 5) were excluded, leaving a clean two-group comparison with sufficient sample size in both groups.
 
 ---
 
-### Total Revenue by Payment Type
+### 2. Revenue Distribution
 
-![Revenue by Payment Type](figures/revenue_by_payment_type.png)
+![Revenue Distribution](figures/revenue_distribution.png "Histogram of total trip revenue showing strong right skew, with most trips concentrated between $10–$30 and a long tail beyond $100.")
+
+Revenue is **heavily right-skewed**, with most trips concentrated between $10–$30 and a long tail extending beyond $100. This skew rules out parametric testing — median-based inference and non-parametric tests were used throughout.
+
+---
+
+### 3. Total Revenue by Payment Type
+
+![Revenue by Payment Type](figures/revenue_by_payment_type.png "Boxplot comparing total revenue between Cash and Credit trips. Credit shows a visibly higher median and wider interquartile range.")
 
 | Payment Type | Median Revenue |
 |---|---|
@@ -93,9 +95,9 @@ The median gap is visually clear and economically meaningful. Credit trips show 
 
 ---
 
-### Revenue Per Mile
+### 4. Revenue Per Mile
 
-![Revenue Per Mile](figures/revenue_per_mile.png)
+![Revenue Per Mile](figures/revenue_per_mile.png "Boxplot of revenue per mile by payment type, showing credit trips generate more revenue per mile even after adjusting for distance.")
 
 | Payment Type | Median Revenue/Mile |
 |---|---|
@@ -106,25 +108,25 @@ Even after adjusting for trip distance, credit trips generate more revenue per m
 
 ---
 
-### Trip Distance Distribution
+### 5. Trip Distance Distribution
 
-![Trip Distance Distribution](figures/trip_distance_distribution.png)
+![Trip Distance Distribution](figures/trip_distance_distribution.png "KDE plot showing overlapping trip distance distributions for Credit and Cash trips, confirming structural similarity between groups.")
 
-Distance distributions for credit and cash trips are **nearly identical** (median: Credit 1.72 mi vs Cash 1.58 mi). The structural similarity in trip characteristics makes the revenue difference more meaningful — it is not driven by longer trips.
+Distance distributions for credit and cash trips are **nearly identical** (median: Credit 1.72 mi vs Cash 1.58 mi). The structural similarity makes the revenue difference more meaningful — it cannot be attributed to longer trips.
 
 ---
 
-### Revenue Composition (Fare vs. Tip)
+### 6. Revenue Composition (Fare vs. Tip)
 
-![Revenue Composition](figures/revenue_composition.png)
+![Revenue Composition](figures/revenue_composition.png "Stacked bar chart showing average fare and tip components by payment type. Cash is almost entirely fare; Credit includes a substantial tip component.")
 
 Cash trips are almost entirely fare-based. Credit trips carry a substantial tip component on top of a comparable base fare. This is the **primary mechanism** behind the revenue gap.
 
 ---
 
-### Tip Percentage by Payment Type
+### 7. Tip Percentage by Payment Type
 
-![Tip Percentage](figures/tip_percentage.png)
+![Tip Percentage](figures/tip_percentage.png "Boxplot of tip percentage by payment type. Cash shows near-zero median tip; Credit shows a tight cluster around 25–27%.")
 
 | Payment Type | Median Tip Percentage |
 |---|---|
@@ -135,11 +137,11 @@ Cash trips record essentially no digital tips. Credit trips cluster tightly arou
 
 ---
 
-### Total Revenue Contribution
+### 8. Total Revenue Contribution
 
-![Total Revenue Contribution](figures/total_revenue_contribution.png)
+![Total Revenue Contribution](figures/total_revenue_contribution.png "Bar chart of total revenue summed by payment type. Credit dominates total revenue contribution due to both higher frequency and per-trip earnings.")
 
-Despite cash representing ~10% of trips and credit ~70%, the absolute revenue contribution gap is further amplified by the per-trip revenue difference.
+Despite cash representing only ~10% of trips, the absolute revenue contribution gap is further amplified by the per-trip revenue difference. Credit payments dominate total revenue generation.
 
 ---
 
@@ -171,7 +173,7 @@ total_amount ~ is_credit + trip_distance + trip_duration_min
 | `trip_distance` | +4.15 | < 0.001 | Each additional mile adds ~$4.15 |
 | `trip_duration_min` | +0.21 | < 0.001 | Each additional minute adds ~$0.21 |
 
-**R² = 0.877** — as expected, revenue is largely explained by distance and duration. Crucially, `is_credit` remains positive and significant after these controls, confirming the payment type effect is robust.
+**R² = 0.877** — as expected, revenue is largely explained by distance and duration. Crucially, `is_credit` remains positive and significant after these controls, confirming the payment type effect is robust to structural trip differences.
 
 ---
 
@@ -183,7 +185,7 @@ total_amount ~ is_credit + trip_distance + trip_duration_min
 | 20 trips/day | ~$82/day additional |
 | 25 working days/month | ~$2,050/month additional |
 
-*Simplified illustrative estimates based on median differences, not predictions. Actual outcomes depend on trip composition and market conditions.*
+*Simplified illustrative estimates based on median differences. Actual outcomes depend on trip composition and market conditions.*
 
 ---
 
@@ -201,15 +203,15 @@ total_amount ~ is_credit + trip_distance + trip_duration_min
 
 ```
 ├── notebooks/
-│   └── revenue_analysis.ipynb       # Full analysis pipeline
+│   └── 01_payment_type_driver_revenue_analysis.ipynb
 ├── figures/
+│   ├── payment_type_share.png
 │   ├── revenue_distribution.png
 │   ├── revenue_by_payment_type.png
 │   ├── revenue_per_mile.png
-│   ├── tip_percentage.png
-│   ├── payment_type_share.png
 │   ├── trip_distance_distribution.png
 │   ├── revenue_composition.png
+│   ├── tip_percentage.png
 │   └── total_revenue_contribution.png
 ├── requirements.txt
 └── README.md
@@ -223,17 +225,56 @@ total_amount ~ is_credit + trip_distance + trip_duration_min
 pip install -r requirements.txt
 ```
 
-Place TLC parquet files in the working directory and run `notebooks/revenue_analysis.ipynb` end-to-end.
+Place TLC parquet files in the working directory and run `notebooks/01_payment_type_driver_revenue_analysis.ipynb` end-to-end. All figures are saved automatically via `plt.savefig()` before each display call.
 
-**requirements.txt**
+---
+
+## Technical Appendix
+
+**Environment**
+
+- Python version: 3.12
+- Platform: macOS (Apple M1)
+
+**Key Libraries**
+
+| Library | Purpose |
+|---|---|
+| `pandas` | Data loading, cleaning, aggregation |
+| `numpy` | Numerical operations and derived metrics |
+| `matplotlib` | Base plotting |
+| `seaborn` | Statistical visualizations |
+| `scipy` | Mann–Whitney U hypothesis testing |
+| `statsmodels` | OLS regression with full summary output |
+| `pyarrow` | Parquet file reading |
+
+**Data Cleaning Rules**
+
+| Rule | Threshold | Reason |
+|---|---|---|
+| Minimum distance | > 0 miles | Remove zero-distance entries |
+| Maximum distance | < 100 miles | Remove data entry errors |
+| Minimum fare | > $0 | Remove refunds and voids |
+| Maximum total | < $500 | Remove extreme outliers |
+| Minimum duration | > 1 minute | Remove instantaneous ghost trips |
+| Maximum duration | < 180 minutes | Remove unrealistic multi-hour trips |
+
+**Hypothesis Test Details**
+
+- Test: Mann–Whitney U (two-sided)
+- Null: Revenue distributions are identical for Credit and Cash
+- Alternative: Distributions differ
+- Significance threshold: α = 0.05
+- Decision criterion: Effect size prioritized over p-value given N = 8.8M
+
+**Regression Model**
+
 ```
-pandas
-numpy
-matplotlib
-seaborn
-scipy
-statsmodels
-pyarrow
+total_amount = β₀ + β₁(is_credit) + β₂(trip_distance) + β₃(trip_duration_min) + ε
+
+is_credit: binary indicator (1 = Credit, 0 = Cash)
+Estimated via OLS (statsmodels)
+R² = 0.877
 ```
 
 ---
