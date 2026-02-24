@@ -1,8 +1,6 @@
 # Payment Type and Driver Revenue: Statistical Analysis
 **NYC TLC Yellow Taxi Data · 2025 · 8.8M Trips**
 
-![License](https://img.shields.io/github/license/Kundan1976/payment-type-driver-revenue-nyc-2025)
-
 ---
 
 ## Overview
